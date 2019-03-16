@@ -20,6 +20,11 @@ if [ `wget -q -T 5 -O /dev/null http://www.iblocklist.com` ] ; then
     exit 1
 fi
 
+if [ `test -f /tmp/.pgiptables.lock` ]; then
+    echo "$0 - instance already running - check your timeing/cronjob"
+    exit 1
+fi
+
 # Blacklist's names & URLs arrays
 bl_urls="https://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz@LVL1 
 	https://list.iblocklist.com/?list=gyisgnzbhppbvsphucsw&fileformat=p2p&archiveformat=gz@LVL2 
@@ -73,5 +78,6 @@ for i in ${bl_urls}; do
 done
 
 rm /tmp/blacklist*
+rm /tmp/.pgiptables.lock
 
 exit 0
