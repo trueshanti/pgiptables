@@ -69,7 +69,7 @@ for i in ${bl_urls}; do
         ### printf '%s\n' "${line}"
         IPRANGE=$( echo -n $line | cut -d: -f2 );
         if [ `echo "${IPRANGE}" | grep ^[0-9]` ] ;then
-            iptables -w 2 -A ${BLLVL} -m iprange --dst-range ${IPRANGE} --src-range ${IPRANGE} -j DROP
+            iptables -w 5 -A ${BLLVL} -m iprange --dst-range ${IPRANGE} --src-range ${IPRANGE} -j DROP
 		fi    
     done 3< /tmp/${IPFILE}
 
