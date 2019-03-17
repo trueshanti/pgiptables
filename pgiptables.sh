@@ -21,7 +21,7 @@ if [ `wget -q -T 5 -O /dev/null http://www.iblocklist.com` ] ; then
 fi
 
 if [ `test -f /tmp/.pgiptables.lock` ]; then
-    echo "$0 - instance already running - check your timeing/cronjob"
+    echo "$0 - another instance already running - aborting - check your timeing/cronjob"
     exit 1
 fi
 
