@@ -38,10 +38,14 @@ bl_urls="https://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&a
 	https://list.iblocklist.com/?list=usrcshglbiilevmyfhse&fileformat=p2p&archiveformat=gz@DSHIELD 
 	https://list.iblocklist.com/?list=xpbqleszmajjesnzddhv&fileformat=p2p&archiveformat=gz@LVL10"
 
+bl_urls="https://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz@LVL1 
+	https://list.iblocklist.com/?list=gyisgnzbhppbvsphucsw&fileformat=p2p&archiveformat=gz@LVL2"
+	
 BLURL=""
 BLLVL=""
 IPFILE=""
 IPRANGE=""
+IPTCOUNT=0
 
 for i in ${bl_urls}; do
 	
@@ -68,10 +72,12 @@ for i in ${bl_urls}; do
 
     while IFS= read -r line <&3; do
         ### printf '%s\n' "${line}"
+	IPTCOUNT=$(( ${IPTCOUNT} + 1 )) 
         IPRANGE=$( echo -n $line | cut -d: -f2 );
         if [ `echo "${IPRANGE}" | grep ^[0-9]` ] ;then
-            iptables -w 5 -A ${BLLVL} -m iprange --dst-range ${IPRANGE} --src-range ${IPRANGE} -j DROP
-		fi    
+        	iptables -w 5 -A ${BLLVL} -m iprange --dst-range ${IPRANGE} --src-range ${IPRANGE} -j DROP
+		echo -ne "applied iptables: ${IPTCOUNT}\r" 
+	fi    
     done 3< /tmp/${IPFILE}
 
     echo "Blacklist ${BLLVL} successfully applied."
